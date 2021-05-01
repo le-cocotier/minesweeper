@@ -25,7 +25,7 @@ class Menu:
         self.canvas.grid(row=0, rowspan=4, column=0, columnspan=3)
         self.canvas.create_image(0, 0, anchor=tkinter.NW, image=self.fond)
         self.canvas.create_text(200, 40, text="Démineur", font=('Arial', 30, 'bold', 'roman'))
-        self.canvas.create_text(200, 100, text="Entrez le le % de bombes")
+        self.canvas.create_text(200, 100, text="Entrez le pourcentage de bombes")
         self.choice_1.grid(row=1, column=1)
         self.canvas.create_text(200, 300, text="Entrez la taille de la grille (width, height)")
         self.choice_2.grid(row=3, column=1)
@@ -112,6 +112,7 @@ class Player:
         else:
             grille.revele_bomb()
         grille.win()
+        self.overflow()
 
     def drapeau(self, event):
         self.get_rect(event)
@@ -151,6 +152,13 @@ class Player:
             return False
         else:
             return True
+
+    def overflow(self):
+        couches = canvas.find_enclosed(self.y * grille.taille_case, self.x * grille.taille_case, (self.y + 1) * grille.taille_case, (self.x + 1) * grille.taille_case)
+        if len(couches) > 2:
+            while(len(couches) >= 2):
+                canvas.delete(couches[-1])
+                couches = canvas.find_enclosed(self.y * grille.taille_case, self.x * grille.taille_case, (self.y + 1) * grille.taille_case, (self.x + 1) * grille.taille_case)
 
     def test_adjacent(self):
         """retourne le nombre de bombe sur les cases aux alentours et ajoute les case sans bombes a une liste"""

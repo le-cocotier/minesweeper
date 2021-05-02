@@ -154,11 +154,13 @@ class Player:
             return True
 
     def overflow(self):
-        couches = canvas.find_enclosed(self.y * grille.taille_case, self.x * grille.taille_case, (self.y + 1) * grille.taille_case, (self.x + 1) * grille.taille_case)
-        if len(couches) > 2:
-            while(len(couches) >= 2):
-                canvas.delete(couches[-1])
-                couches = canvas.find_enclosed(self.y * grille.taille_case, self.x * grille.taille_case, (self.y + 1) * grille.taille_case, (self.x + 1) * grille.taille_case)
+        for colonne in range(len(grille.tableau)):
+            for ligne in range(len(grille.tableau[colonne])):
+                couches = canvas.find_enclosed(colonne * grille.taille_case, ligne * grille.taille_case, (colonne + 1) * grille.taille_case, (ligne + 1) * grille.taille_case)
+                if len(couches) > 2:
+                    while(len(couches) > 2):
+                        canvas.delete(couches[-1])
+                        couches = canvas.find_enclosed(colonne * grille.taille_case, ligne * grille.taille_case, (colonne + 1) * grille.taille_case, (ligne + 1) * grille.taille_case)
 
     def test_adjacent(self):
         """retourne le nombre de bombe sur les cases aux alentours et ajoute les case sans bombes a une liste"""

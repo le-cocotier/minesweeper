@@ -113,13 +113,15 @@ class Player:
 
     def deminage(self, event):
         self.get_rect(event)
-        if self.grille.tableau[self.y][self.x] == 0:
-            self.test_large()
-            self.test_list()
-        else:
-            self.grille.revele_bomb()
-        self.win()
-        self.overflow()
+        drap = self.grille.canvas.find_enclosed(self.x * self.grille.taille_case, self.y * self.grille.taille_case, (self.x + 1) * self.grille.taille_case , (self.y + 1) * self.grille.taille_case)
+        if len(drap) == 0:
+            if self.grille.tableau[self.y][self.x] == 0:
+                self.test_large()
+                self.test_list()
+            else:
+                self.grille.revele_bomb()
+            self.win()
+            self.overflow()
 
     def drapeau(self, event):
         self.get_rect(event)

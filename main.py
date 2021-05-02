@@ -206,11 +206,13 @@ class Gui:
     def __init__(self):
         self.minutes = 0
         self.fen = tkinter.Tk()
-        self.label = tkinter.Label(text="", font=('Helvetica', 48), fg='red', justify='right', width=5)
+        self.label = tkinter.Label(text="", font=('Helvetica', 48), fg='red')
         self.label.pack()
         self.grille = Grille(self.fen)
         self.player = Player(self.grille)
         self.grille.set_up()
+        self.label_bomb = tkinter.Label(text="nb de bombes: {0}".format(self.grille.nb_bomb), font=('Helvetica', 20), fg='black')
+        self.label_bomb.pack()
         self.fen.bind("<Button-3>", self.player.drapeau)
         self.fen.bind("<Button-1>", self.player.deminage)
         self.update_clock()

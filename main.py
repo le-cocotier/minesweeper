@@ -94,6 +94,7 @@ class Grille:
 class Player:
 
     def __init__(self, grille):
+        self.minutes = 0
         self.x = 0
         self.y = 0
         self.grille = grille
@@ -198,13 +199,12 @@ class Player:
         limite = self.grille.width * self.grille.height - self.grille.nb_bomb
         if len(self.deja_affiche) == limite:
             self.grille.running = False
-            tkinter.messagebox.showinfo("Win", "Vous avez trouvé toutes les bombes en {0}.{1} minutes".format(self.minutes,self.player.chrono))
+            tkinter.messagebox.showinfo("Win", "Vous avez trouvé toutes les bombes en {0}.{1} minutes".format(self.minutes,self.chrono))
             self.grille.fen.destroy()
 
 
 class Gui:
     def __init__(self):
-        self.minutes = 0
         self.fen = tkinter.Tk()
         self.label = tkinter.Label(text="", font=('Helvetica', 48), fg='red')
         self.label.pack()
@@ -224,12 +224,12 @@ class Gui:
             now = time.time()
             self.player.chrono = round(now - menu.start, 1)
             self.conv()
-            self.label.configure(text="{0}.{1}".format(self.minutes,self.player.chrono))
+            self.label.configure(text="{0}.{1}".format(self.player.minutes,self.player.chrono))
             self.fen.after(100, self.update_clock)
 
     def conv(self):
         if self.player.chrono >= 60.0:
-            self.minutes += 1
+            self.player.minutes += 1
             menu.start += 60.0
 
 menu = Menu()
